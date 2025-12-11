@@ -11,24 +11,39 @@ import { colors } from "../styles/colors";
 import { typography } from "../styles/typography";
 import { shadows } from "../styles/shadows";
 
-const TaskForm = () => {
+interface TaskFormProps {
+  onAddTask: (task: { title: string; description: string }) => void;
+}
+
+const TaskForm = ({ onAddTask }: TaskFormProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
+
   const isValid = title.trim().length > 0;
 
+  // Live validation whenever title changes
+  const handleTitleChange = (text: string) => {
+    setTitle(text);
+    if (text.trim().length === 0) {
+      setError("Task title is required.");
+    } else {
+      setError("");
+    }
+  };
+
   const handleSubmit = () => {
-    if (!isValid) {
+    if (title.trim().length === 0) {
       setError("Task title is required.");
       return;
     }
-    setError("");
     // Handle form submission logic here
-    console.log("Task added:", { title, description });
+    onAddTask({ title, description });
 
     // Clear the form
     setTitle("");
     setDescription("");
+    setError("");
   };
 
   return (
@@ -38,7 +53,7 @@ const TaskForm = () => {
         style={styles.input}
         placeholder="Task title"
         value={title}
-        onChangeText={(text) => setTitle(text)}
+        onChangeText={handleTitleChange}
       />
 
       <TextInput
@@ -46,7 +61,7 @@ const TaskForm = () => {
         placeholder="Description (optional)"
         multiline
         value={description}
-        onChangeText={(text) => setDescription(text)}
+        onChangeText={setDescription}
       />
 
       <TouchableOpacity
