@@ -26,13 +26,12 @@ export default TaskItem;
 
 const styles = StyleSheet.create({
   container: {
-    // ...shadows.small,
+    ...shadows.small,
     backgroundColor: colors.inputBackground,
     padding: spacing.md,
-    borderRadius: 10,
+    borderRadius: 20,
     marginBottom: spacing.md,
     borderColor: colors.inputBorder,
-    borderWidth: 1,
   },
   title: {
     fontSize: typography.subtitle,

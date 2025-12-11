@@ -52,6 +52,7 @@ const TaskForm = ({ onAddTask }: TaskFormProps) => {
       <TextInput
         style={styles.input}
         placeholder="Task title"
+        placeholderTextColor={colors.textSecondary}
         value={title}
         onChangeText={handleTitleChange}
       />
@@ -59,6 +60,7 @@ const TaskForm = ({ onAddTask }: TaskFormProps) => {
       <TextInput
         style={[styles.input, styles.descriptionInput]}
         placeholder="Description (optional)"
+        placeholderTextColor={colors.textSecondary}
         multiline
         value={description}
         onChangeText={setDescription}
@@ -83,11 +85,9 @@ const styles = StyleSheet.create({
   },
   input: {
     ...shadows.small,
-    backgroundColor: colors.inputBackground,
-    borderColor: colors.inputBorder,
-    borderWidth: 1,
-    padding: spacing.md,
-    borderRadius: 10,
+    backgroundColor: colors.softInputBackground,
+    padding: spacing.lg,
+    borderRadius: 30,
     marginBottom: spacing.md,
     fontSize: typography.body,
   },
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     ...shadows.small,
     backgroundColor: colors.primary,
     padding: spacing.md,
-    borderRadius: 10,
+    borderRadius: 30,
     alignItems: "center",
   },
   buttonText: {
