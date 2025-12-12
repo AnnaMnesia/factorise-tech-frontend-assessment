@@ -22,39 +22,29 @@ const TaskForm = ({ onAddTask }: TaskFormProps) => {
 
   const isValid = title.trim().length > 0;
 
-  // Live validation whenever title changes
-  const handleTitleChange = (text: string) => {
-    setTitle(text);
-    if (text.trim().length === 0) {
-      setError("Task title is required.");
-    } else {
-      setError("");
-    }
-  };
-
   const handleSubmit = () => {
-    if (title.trim().length === 0) {
+    if (!isValid) {
       setError("Task title is required.");
       return;
     }
-    // Handle form submission logic here
+
+    setError("");
     onAddTask({ title, description });
 
-    // Clear the form
     setTitle("");
     setDescription("");
-    setError("");
   };
 
   return (
     <View style={styles.container}>
       {error.length > 0 && <Text style={styles.error}>{error}</Text>}
+
       <TextInput
         style={styles.input}
         placeholder="Task title"
         placeholderTextColor={colors.textSecondary}
         value={title}
-        onChangeText={handleTitleChange}
+        onChangeText={setTitle}
       />
 
       <TextInput
@@ -68,8 +58,8 @@ const TaskForm = ({ onAddTask }: TaskFormProps) => {
 
       <TouchableOpacity
         style={[styles.button, !isValid && styles.buttonDisabled]}
-        disabled={!isValid}
         onPress={handleSubmit}
+        disabled={!isValid}
       >
         <Text style={styles.buttonText}>Add Task</Text>
       </TouchableOpacity>
@@ -83,32 +73,41 @@ const styles = StyleSheet.create({
   container: {
     marginTop: spacing.lg,
   },
+
   input: {
-    ...shadows.small,
-    backgroundColor: colors.softInputBackground,
+    backgroundColor: colors.foreground,
     padding: spacing.lg,
     borderRadius: 30,
     marginBottom: spacing.md,
     fontSize: typography.body,
+    color: colors.textPrimary,
+
+    // Soft shadow
+    ...shadows.soft,
   },
+
   descriptionInput: {
     height: 80,
     textAlignVertical: "top",
   },
+
   button: {
-    ...shadows.small,
     backgroundColor: colors.primary,
-    padding: spacing.md,
+    paddingVertical: spacing.md,
     borderRadius: 30,
     alignItems: "center",
+    ...shadows.soft,
   },
+
+  buttonDisabled: {
+    backgroundColor: colors.borderDark,
+  },
+
   buttonText: {
     color: "white",
     fontSize: typography.subtitle,
   },
-  buttonDisabled: {
-    backgroundColor: colors.buttonDisabled,
-  },
+
   error: {
     color: colors.error,
     marginBottom: spacing.sm,

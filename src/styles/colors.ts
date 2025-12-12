@@ -1,12 +1,10 @@
 export const colors = {
- primary: "#3B82F6", // main blue
-  backgroundHeader: "#1E3A8A",
-  backgroundBody: "#F3F4F6",
-  inputBackground: "#FFFFFF",      
-  softInputBackground: "rgba(59, 84, 246, 0.04)", 
-  inputBorder: "#D1D5DB",
-  buttonDisabled: "#9CA3AF",
-  textPrimary: "#111827",
-  textSecondary: "#6B7280",
-  error: "#DC2626",
+  background: "#E9EEF5",            // Main soft background
+  foreground: "#FFFFFF",            // Raised surfaces
+  primary: "#3B82F6",               // Accent blue
+  textPrimary: "#2D3436",           // Dark gray text
+  textSecondary: "#636e72",         // Light gray text
+  borderLight: "#F7F9FC",           // Light border for elevation
+  borderDark: "#D1D9E6",            // Shadow border for depth
+  error: "#E63946",                 
 };

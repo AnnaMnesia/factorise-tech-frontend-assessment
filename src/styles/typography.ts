@@ -4,4 +4,5 @@ export const typography = {
   subtitle: 18,
   title: 24,
   header: 32,
+  mainHeader: 66,
 };

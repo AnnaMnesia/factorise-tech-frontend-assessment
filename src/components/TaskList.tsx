@@ -1,8 +1,8 @@
 import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
-import { spacing } from "../styles/spacing";
+import { View, FlatList, StyleSheet } from "react-native";
 import TaskItem from "./TaskItem";
 import { Task } from "../types/tasks";
+import { spacing } from "../styles/spacing";
 
 interface TaskListProps {
   tasks: Task[];
@@ -15,7 +15,7 @@ const TaskList = ({ tasks }: TaskListProps) => {
         data={tasks}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <TaskItem task={item} />}
-        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -26,6 +26,6 @@ export default TaskList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: spacing.lg,
+    marginTop: spacing.md,
   },
 });

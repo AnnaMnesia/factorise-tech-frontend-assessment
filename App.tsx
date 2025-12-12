@@ -1,5 +1,10 @@
 import HomeScreen from "./src/screens/HomeScreen";
+import { TaskProvider } from "./src/context/TaskContext";
 
 export default function App() {
-  return <HomeScreen />;
+  return (
+    <TaskProvider>
+      <HomeScreen />
+    </TaskProvider>
+  );
 }

@@ -4,72 +4,67 @@ import { colors } from "../styles/colors";
 import { spacing } from "../styles/spacing";
 import { typography } from "../styles/typography";
 import TaskForm from "../components/TaskForm";
-import { Task } from "../types/tasks";
 import TaskList from "../components/TaskList";
+// import { Task } from "../types/tasks";
+import { shadows } from "../styles/shadows";
+import { useTasks } from "../context/TaskContext";
 
 const HomeScreen = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  // const [tasks, setTasks] = useState<Task[]>([]);
+  const { tasks, addTask } = useTasks(); // global tasks + addTask function from context
   const [sortType, setSortType] = useState<"az" | "za" | "newest" | "oldest">(
     "newest"
   );
 
   const handleAddTask = (task: { title: string; description: string }) => {
-    setTasks((prev) => [
-      ...prev,
-      { ...task, id: Date.now().toString() }, // Generate unique ID
-    ]);
+    addTask(task);
   };
 
-  //Bonus: Implement sorting logic based on sortType
   const sortedTasks = [...tasks].sort((a, b) => {
     if (sortType === "az") return a.title.localeCompare(b.title);
     if (sortType === "za") return b.title.localeCompare(a.title);
-    if (sortType === "newest") return parseInt(b.id) - parseInt(a.id);
-    if (sortType === "oldest") return parseInt(a.id) - parseInt(b.id);
+    if (sortType === "newest") return Number(b.id) - Number(a.id);
+    if (sortType === "oldest") return Number(a.id) - Number(b.id);
     return 0;
   });
 
   return (
     <View style={styles.container}>
-      {/* Header: top 1/3 */}
+      {/* HEADER */}
       <View style={styles.header}>
-        <Text style={styles.headerText}>My Tasks</Text>
+        <Text style={styles.headerText}>Manage{"\n"}your tasks✏️</Text>
       </View>
 
-      {/* Body:2/3 */}
+      {/* BODY */}
       <View style={styles.body}>
         <TaskForm onAddTask={handleAddTask} />
 
-        {/* Bonus: sorting options */}
-        <View style={styles.sortContainer}>
-          {/* Show sorting options only if more than one task */}
-          {sortedTasks.length > 1 && (
-            <View style={styles.sortContainer}>
-              {["az", "za", "newest", "oldest"].map((type) => (
-                <TouchableOpacity
-                  key={type}
-                  onPress={() => setSortType(type as any)}
+        {tasks.length > 1 && (
+          <View style={styles.sortContainer}>
+            {["az", "za", "newest", "oldest"].map((type) => (
+              <TouchableOpacity
+                key={type}
+                style={[
+                  styles.sortButton,
+                  sortType === type && styles.sortButtonActive,
+                ]}
+                onPress={() => setSortType(type as any)}
+              >
+                <Text
                   style={[
-                    styles.sortButton,
-                    sortType === type && styles.sortButtonActive,
+                    styles.sortText,
+                    sortType === type && styles.sortTextActive,
                   ]}
                 >
-                  <Text
-                    style={[
-                      styles.sortButtonText,
-                      sortType === type && styles.sortButtonTextActive,
-                    ]}
-                  >
-                    {type === "az" && "A–Z"}
-                    {type === "za" && "Z–A"}
-                    {type === "newest" && "Newest"}
-                    {type === "oldest" && "Oldest"}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          )}
-        </View>
+                  {type === "az" && "A–Z"}
+                  {type === "za" && "Z–A"}
+                  {type === "newest" && "Newest"}
+                  {type === "oldest" && "Oldest"}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
 
         <TaskList tasks={sortedTasks} />
       </View>
@@ -77,47 +72,57 @@ const HomeScreen = () => {
   );
 };
 
+export default HomeScreen;
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1, backgroundColor: colors.primary },
+
   header: {
     flex: 1,
-    backgroundColor: colors.backgroundHeader,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "flex-end",
+    alignItems: "flex-start",
+    backgroundColor: colors.background,
+    padding: spacing.lg,
+    ...shadows.soft,
   },
-  headerText: { color: "white", fontSize: typography.header },
+
+  headerText: {
+    fontSize: typography.mainHeader,
+    lineHeight: typography.mainHeader * 0.94,
+    color: colors.textPrimary,
+    fontWeight: "700",
+  },
+
   body: {
     flex: 2,
-    backgroundColor: colors.backgroundBody,
     padding: spacing.lg,
+    backgroundColor: colors.background,
   },
-  // Sorting UI
+
   sortContainer: {
     flexDirection: "row",
-    width: "100%",
-    justifyContent: "flex-end",
-    gap: spacing.xs,
+    justifyContent: "space-between",
     marginTop: spacing.lg,
-    marginBottom: spacing.sm,
   },
+
   sortButton: {
-    paddingVertical: spacing.xs,
+    backgroundColor: colors.foreground,
+    paddingVertical: spacing.sm,
     paddingHorizontal: spacing.md,
     borderRadius: 20,
-    backgroundColor: colors.inputBackground,
+    ...shadows.soft,
   },
+
   sortButtonActive: {
     backgroundColor: colors.primary,
   },
-  sortButtonText: {
-    color: colors.textPrimary,
+
+  sortText: {
     fontSize: typography.small,
+    color: colors.textPrimary,
   },
-  sortButtonTextActive: {
+
+  sortTextActive: {
     color: "white",
   },
 });
-
-export default HomeScreen;
