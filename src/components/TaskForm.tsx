@@ -57,6 +57,7 @@ const TaskForm = ({ onAddTask }: TaskFormProps) => {
       />
 
       <TouchableOpacity
+        testID="add-task-button"
         style={[styles.button, !isValid && styles.buttonDisabled]}
         onPress={handleSubmit}
         disabled={!isValid}

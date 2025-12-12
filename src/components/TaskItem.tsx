@@ -12,7 +12,7 @@ interface TaskItemProps {
 
 const TaskItem = ({ task }: TaskItemProps) => {
   return (
-    <View style={styles.card}>
+    <View testID="task-item" style={styles.card}>
       <Text style={styles.title}>{task.title}</Text>
 
       {task.description ? (
